@@ -30,7 +30,7 @@ class Signup extends Component {
       password: this.state.password,
     };
 
-    let route = "localhost:8081/auth/signup";
+    let route = "localhost:8081/user/add";
     axios.post(route, { user })
     .then((response) => {
       console.log(response);
