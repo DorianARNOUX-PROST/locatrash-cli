@@ -3,11 +3,11 @@ import ReactDOM from 'react-dom';
 import './index.css';
 import * as serviceWorker from './serviceWorker';
 import { BrowserRouter, Route } from 'react-router-dom';
-import BinMap from './Leaflet/BinMap';
-import SignUp from './Signup';
-import Signin from './Signin';
+import BinMap from './views/BinMap';
+import SignUp from './views/Signup';
+import Signin from './views/Signin';
 import App from './App';
-import Navbars from './Navbars';
+import Navbars from './views/Navbars';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 ReactDOM.render(

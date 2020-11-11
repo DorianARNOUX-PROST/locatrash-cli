@@ -1,12 +1,12 @@
 import React, { Component } from 'react';
 import { Button } from 'react-bootstrap';
 import axios from 'axios';
-import './styles/form.css';
+import '../styles/form.css';
 
 
 class Signup extends Component {
 
-  
+
 
   constructor(props) {
     super(props);
@@ -46,25 +46,25 @@ class Signup extends Component {
       <div className="form-inline">
         <h1>Créer un compte</h1>
         <div className="form-group">
-          <input 
+          <input
             className="form-control"
             type="text"
             placeholder="prénom"
-            onChange={event => this.setState({name: event.target.value})}        
+            onChange={event => this.setState({name: event.target.value})}
           />
-          <input 
+          <input
             className="form-control"
             type="text"
             placeholder="nom"
-            onChange={event => this.setState({surname: event.target.value})}        
+            onChange={event => this.setState({surname: event.target.value})}
           />
-          <input 
+          <input
             className="form-control"
             type="text"
             placeholder="email"
-            onChange={event => this.setState({email: event.target.value})}        
+            onChange={event => this.setState({email: event.target.value})}
           />
-          <input 
+          <input
             className="form-control"
             type="password"
             placeholder="mot de passe"
@@ -72,8 +72,8 @@ class Signup extends Component {
           />
           <Button variant="dark" onClick={() => this.signUp()}>S'enregistrer</Button>
           <Button variant="dark" onClick={event =>  window.location.href='/signin'}>J'ai deja un compte</Button>
-          
-          
+
+
         </div>
         <div>{this.state.error.message}</div>
       </div>

@@ -10,7 +10,7 @@ class BinMap extends React.Component{
     this.state = {
       isVisible : true,
       bingmapKey: "Ak_-kDEjK1mCGeLhULqNo5zAk3HoOS3Z8NUlcJsOBLyaua-Hpbu3B9mv01BNmgdU",
-      popupMessage: "", 
+      popupMessage: "",
       pushPins : [
         {
           "location":[13.0827, 80.2707], "option":{ color: 'red' }, "addHandler": {"type" : "click", callback: this.callBackMethod }
@@ -48,7 +48,7 @@ class BinMap extends React.Component{
       } else {
         this.state.popupMessage = "Votre navigateur ne supporte pas la geolocalisation"
       }
-      
+
       this.setState({pushPins : pushPinsUpdated})
       });
     }
@@ -57,25 +57,27 @@ class BinMap extends React.Component{
     }
   }
 
+
+
   render() {
     const popupMessage = this.state.popupMessage
     return (
       <div>
-        {popupMessage ? 
+        {popupMessage ?
           <Popup position="right center">
             <div>{popupMessage}</div>
             <Button variant="primary" onClick={() => this.removePopupMessage()}>Ok</Button>
           </Popup>
           : <div></div>
         }
-        
+
           <div className = "map-one">
           <Button variant="primary" onClick={() => this.loadBins()}>Charger les poubelles</Button>
-          <ReactBingmaps 
+          <ReactBingmaps
             bingmapKey = "Ak_-kDEjK1mCGeLhULqNo5zAk3HoOS3Z8NUlcJsOBLyaua-Hpbu3B9mv01BNmgdU"
             center = {[ 45.743508, 4.846877]}
             pushPins = { this.state.pushPins }
-          > 
+          >
           </ReactBingmaps>
         </div>
       </div>

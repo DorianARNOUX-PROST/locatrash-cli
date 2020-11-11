@@ -1,8 +1,8 @@
 import Navbar from 'react-bootstrap/Navbar'
 import React from 'react';
 import { Button, Nav, Form, FormControl } from 'react-bootstrap';
-import './App.css';
-import './Navbar.css';
+import '../App.css';
+import '../Navbar.css';
 import { Link, useHistory } from "react-router-dom";
 
 class Navbars extends React.Component{
@@ -43,7 +43,7 @@ class Navbars extends React.Component{
                     <Nav.Link href="signup">Creer un compte</Nav.Link>
                   </React.Fragment>
                 }
-              
+
             </Nav>
             <Form inline>
               <FormControl type="text" placeholder="Search" className="mr-sm-2" />
@@ -57,4 +57,4 @@ class Navbars extends React.Component{
 
   export default Navbars;
 
-  
+

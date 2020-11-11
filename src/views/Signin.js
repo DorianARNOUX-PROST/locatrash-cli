@@ -5,7 +5,7 @@ import axios from 'axios';
 
 class Signin extends Component {
 
-  
+
 
   constructor(props) {
     super(props);
@@ -28,10 +28,11 @@ class Signin extends Component {
     let route = "http://localhost:8081/auth/login";
     axios.post(route, user)
     .then((response) => {
+      console.log(response);
       localStorage.setItem('token', response.data.token);
     })
     .catch(function (error) {
-      
+
     });
     window.location.href='/map';
   }
@@ -41,13 +42,13 @@ class Signin extends Component {
       <div className="form-inline">
         <h1>Se connecter</h1>
         <div className="form-group">
-          <input 
+          <input
             className="form-control"
             type="text"
             placeholder="email"
-            onChange={event => this.setState({email: event.target.value})}        
+            onChange={event => this.setState({email: event.target.value})}
           />
-          <input 
+          <input
             className="form-control"
             type="password"
             placeholder="mot de passe"
