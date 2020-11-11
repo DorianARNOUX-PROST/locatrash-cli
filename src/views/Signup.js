@@ -24,14 +24,16 @@ class Signup extends Component {
   signUp() {
 
     const user = {
-      name: this.state.name,
-      surname: this.state.surname,
-      email: this.state.email,
-      password: this.state.password,
+      "name": this.state.name,
+      "surname": this.state.surname,
+      "email": this.state.email,
+      "password": this.state.password,
     };
 
-    let route = "localhost:8081/user/add";
-    axios.post(route, { user })
+    console.log(user)
+
+    let route = "http://localhost:8081/user/add";
+    axios.post(route, user)
     .then((response) => {
       console.log(response);
       console.log(response.data);

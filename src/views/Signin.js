@@ -14,11 +14,13 @@ class Signin extends Component {
       password: '',
       error: {
         message: ''
-      }
+      },
+      logged : false
     }
   }
 
-  signIn() {
+
+  async signIn() {
 
     const user = {
       "email": this.state.email,
@@ -34,7 +36,8 @@ class Signin extends Component {
     .catch(function (error) {
 
     });
-    window.location.href='/map';
+    await new Promise(r => setTimeout(r, 500));
+    window.location.href='/map'
   }
 
   render() {
