@@ -26,6 +26,16 @@ function loadData() {
             title: item.commune,
             data: [{label: item.commune, value: item.trashes},{label: "Autre", value: totalTrashes-item.trashes}]
         }));
+        //let data =[];
+        data.push({
+            title: 'Poubelles',
+            data: [{label: "Reste", value: 200},{label: "Lyon", value: 100}]
+        });
+        data.push({
+            title: 'Poubelles2',
+            data: [{label: "Reste", value: 200},{label: "Lyon", value: 100}]
+        });
+        return data;
         //console.log(data);
         /*
         return new Promise(function(resolve, reject) {
@@ -80,7 +90,7 @@ class TrashesRepartition extends React.Component{
 
     componentDidMount() {
         this.setState({
-            //data: loadData()
+            data: loadData()
         });
     }
 
