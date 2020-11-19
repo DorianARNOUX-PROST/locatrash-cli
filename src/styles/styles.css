@@ -1,0 +1,20 @@
+.textRight{
+    text-align: right;
+}
+
+.title_stats{
+    display: block;
+    font-size: 150%;
+    font-weight: 500;
+    border-bottom: darkgrey 1px solid;
+    margin: 10px 50px 10px 10px;
+    padding: 5px;
+}
+
+.subtitle_stats{
+    display: block;
+    font-size: 120%;
+    font-weight: 100;
+    margin: 10px 50px 10px 10px;
+    padding: 5px;
+}

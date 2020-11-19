@@ -23,3 +23,11 @@ div#eleven {
 .customClass{
 	height: 96%;
 }
+
+.container {
+	background-color: white;
+}
+
+#root{
+	background-color: darkgrey;
+}
