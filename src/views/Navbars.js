@@ -2,7 +2,7 @@ import Navbar from 'react-bootstrap/Navbar'
 import React from 'react';
 import { Button, Nav, Form, FormControl } from 'react-bootstrap';
 import '../App.css';
-import '../Navbar.css';
+import '../styles/Navbar.css';
 import { Link, useHistory } from "react-router-dom";
 
 class Navbars extends React.Component{
@@ -29,12 +29,13 @@ class Navbars extends React.Component{
     render (){
       return (
         <div>
-          <Navbar fixed="sticky" bg="primary" variant="dark">
+          <Navbar fixed="sticky" bg="success" variant="dark">
             <Nav className="mr-auto">
               <Nav.Link href="/">Accueil</Nav.Link>
               {this.state.loggedIn ?
               <React.Fragment>
                   <Nav.Link href="map">Map</Nav.Link>
+                  <Nav.Link href="stats">Statistiques</Nav.Link>
                   <Nav.Link onClick={() => this.logout()}>Se deconnecter</Nav.Link>
                 </React.Fragment>
                   :

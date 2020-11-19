@@ -9,6 +9,7 @@
     "axios": "^0.20.0",
     "bcrypt": "^5.0.0",
     "bootstrap": "^4.5.3",
+    "chart.js": "^2.9.4",
     "leaflet": "^1.7.1",
     "react": "^16.14.0",
     "react-bingmaps-plus": "^3.7.2",

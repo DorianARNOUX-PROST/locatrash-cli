@@ -34,7 +34,7 @@ class Signin extends Component {
     .catch(function (error) {
 
     });
-    window.location.href='/map';
+    //window.location.href='/map';
   }
 
   render() {
