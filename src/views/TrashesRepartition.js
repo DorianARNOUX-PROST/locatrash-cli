@@ -66,10 +66,15 @@ class TrashesRepartition extends React.Component{
                      <span className={"subtitle_stats"}>{this.state.averageT}</span>
                  </Col>
                  <Col sm={12} md={6}>
-                     <span className={"title_stats"}>Nombre minimum de poubelles dans une ville</span>
+                     <span className={"title_stats"}>Nombre min de poubelles dans une ville</span>
                      <span className={"subtitle_stats"}>{this.state.minT}</span>
-                     <span className={"title_stats"}>Nombre maximum de poubelles dans une ville</span>
+                     <span className={"title_stats"}>Nombre max de poubelles dans une ville</span>
                      <span className={"subtitle_stats"}>{this.state.maxT}</span>
+                 </Col>
+             </Row>
+             <Row>
+                 <Col>
+                     <span className={"title_stats"}>Détails nombre de poubelles par ville</span>
                  </Col>
              </Row>
             <Row>
@@ -79,7 +84,7 @@ class TrashesRepartition extends React.Component{
                             <DoughnutChart
                                 data={item.data}
                                 title={item.title}
-                                colors={['darkgrey', '#28a745']}
+                                colors={['#404040', '#28a745']}
                             />
                         </Col>
                         )

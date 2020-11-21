@@ -3,6 +3,9 @@ import { ReactBingmaps } from 'react-bingmaps-plus';
 import axios from 'axios';
 import {Button} from 'react-bootstrap';
 import Popup from 'reactjs-popup';
+import Container from "react-bootstrap/Container";
+import Row from "react-bootstrap/Row";
+import Col from "react-bootstrap/Col";
 
 class BinMap extends React.Component{
   constructor(props) {
@@ -36,7 +39,7 @@ class BinMap extends React.Component{
       .then((response) => {
         response.data.forEach( (element) => {
           pushPinsUpdated.push({
-            "location":[parseFloat(element.latitude), parseFloat(element.longitude)], "option":{ color: 'green' }, "addHandler": {"type" : "click", callback: this.callBackMethod }
+            "location":[parseFloat(element.latitude), parseFloat(element.longitude)], "option":{ color: 'green' }, "addHandler": {type : "click", callback: () => {window.location.href="/trash?id="+element.identifiant} }
           })
       })
       if (navigator.geolocation) {
@@ -62,7 +65,7 @@ class BinMap extends React.Component{
   render() {
     const popupMessage = this.state.popupMessage
     return (
-      <div>
+      <Container>
         {popupMessage ?
           <Popup position="right center">
             <div>{popupMessage}</div>
@@ -70,17 +73,20 @@ class BinMap extends React.Component{
           </Popup>
           : <div></div>
         }
-
-          <div className = "map-one">
-          <Button variant="primary" onClick={() => this.loadBins()}>Charger les poubelles</Button>
-          <ReactBingmaps
-            bingmapKey = "Ak_-kDEjK1mCGeLhULqNo5zAk3HoOS3Z8NUlcJsOBLyaua-Hpbu3B9mv01BNmgdU"
-            center = {[ 45.743508, 4.846877]}
-            pushPins = { this.state.pushPins }
-          >
-          </ReactBingmaps>
-        </div>
-      </div>
+        <Row>
+          <Col>
+            <div className = "map-one">
+              <Button variant="primary" onClick={() => this.loadBins()}>Charger les poubelles</Button>
+              <ReactBingmaps
+                  bingmapKey = "Ak_-kDEjK1mCGeLhULqNo5zAk3HoOS3Z8NUlcJsOBLyaua-Hpbu3B9mv01BNmgdU"
+                  center = {[ 45.743508, 4.846877]}
+                  pushPins = { this.state.pushPins }
+              >
+              </ReactBingmaps>
+            </div>
+          </Col>
+        </Row>
+      </Container>
     );
   }
 }

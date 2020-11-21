@@ -10,6 +10,7 @@ import App from './App';
 import Navbars from './views/Navbars';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import TrashesRepartition from "./views/TrashesRepartition";
+import TrashDetail from "./views/TrashDetail";
 
 ReactDOM.render(
   <React.StrictMode>
@@ -20,6 +21,7 @@ ReactDOM.render(
         <Route path="/signin" component={Signin}></Route>
         <Route path="/map" component={ BinMap }></Route>
         <Route path="/stats" component={ TrashesRepartition }></Route>
+        <Route path="/trash" component={ TrashDetail }></Route>
     </BrowserRouter>
   </React.StrictMode>,
   document.getElementById('root')
