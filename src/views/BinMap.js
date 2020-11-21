@@ -8,27 +8,22 @@ import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 
 class BinMap extends React.Component{
+
   constructor(props) {
     super(props);
     this.state = {
       isVisible : true,
       bingmapKey: "Ak_-kDEjK1mCGeLhULqNo5zAk3HoOS3Z8NUlcJsOBLyaua-Hpbu3B9mv01BNmgdU",
       popupMessage: "",
-      pushPins : [
-        {
-          "location":[13.0827, 80.2707], "option":{ color: 'red' }, "addHandler": {"type" : "click", callback: this.callBackMethod }
-        }
-      ],
+      pushPins : []
     }
-    this.loadBins = this.loadBins.bind(this);
-    this.removePopupMessage = this.removePopupMessage.bind(this);
   }
 
   removePopupMessage() {
     this.state.popupMessage = ""
   }
 
-  loadBins(){
+  componentDidMount(){
     let route = "http://localhost:8081/trashes/list";
     const config = {
       headers: { Authorization: `Bearer ${localStorage.getItem("token")}` }
@@ -42,17 +37,19 @@ class BinMap extends React.Component{
             "location":[parseFloat(element.latitude), parseFloat(element.longitude)], "option":{ color: 'green' }, "addHandler": {type : "click", callback: () => {window.location.href="/trash?id="+element.identifiant} }
           })
       })
+        this.setState({pushPins : pushPinsUpdated});
+
+        /*
       if (navigator.geolocation) {
         let position = navigator.geolocation.getCurrentPosition.coords
         console.log(position)
         /* pushPinsUpdated.push({
           "location":[parseFloat(position.latitude), parseFloat(position.longitude)], "option":{ color: 'blue' }, "addHandler": {"type" : "click", callback: this.callBackMethod }
-        }) */ // NEED HTTPS TO IMPLEMENT GEOLOCATION API
+        })  // NEED HTTPS TO IMPLEMENT GEOLOCATION API
       } else {
         this.state.popupMessage = "Votre navigateur ne supporte pas la geolocalisation"
       }
-
-      this.setState({pushPins : pushPinsUpdated})
+      */
       });
     }
     catch(error){
@@ -61,6 +58,9 @@ class BinMap extends React.Component{
   }
 
 
+  // componentDidUpdate(prevProps, prevState, snapshot){
+  //   this.setState({pushPins : this.state.pushPinsTmp})
+  // }
 
   render() {
     const popupMessage = this.state.popupMessage
@@ -76,9 +76,8 @@ class BinMap extends React.Component{
         <Row>
           <Col>
             <div className = "map-one">
-              <Button variant="primary" onClick={() => this.loadBins()}>Charger les poubelles</Button>
               <ReactBingmaps
-                  bingmapKey = "Ak_-kDEjK1mCGeLhULqNo5zAk3HoOS3Z8NUlcJsOBLyaua-Hpbu3B9mv01BNmgdU"
+                  bingmapKey = { this.state.bingmapKey }
                   center = {[ 45.743508, 4.846877]}
                   pushPins = { this.state.pushPins }
               >

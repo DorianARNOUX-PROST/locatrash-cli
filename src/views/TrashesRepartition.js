@@ -84,7 +84,7 @@ class TrashesRepartition extends React.Component{
                             <DoughnutChart
                                 data={item.data}
                                 title={item.title}
-                                colors={['#404040', '#28a745']}
+                                colors={['#343a40', '#28a745']}
                             />
                         </Col>
                         )
