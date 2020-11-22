@@ -18,29 +18,26 @@ class BinMap extends React.Component{
       directions: {
         "inputPanel": "inputPanel",
         "renderOptions": {"itineraryContainer": "itineraryContainer" },
-        "requestOptions": {"routeMode": "driving", "maxRoutes": 2},
+        "requestOptions": {"routeMode": "walking", "maxRoutes": 1},
         "wayPoints": [
               {
-                address: 'Chennai, Tamilnadu'
+                location: [45.7337532, 4.9092352],
+                address: "BronCity"
               },
               {
-                address: 'Salem, Tamilnadu'
-              },
-              {
-                address: 'Coimbatore, Tamilnadu'
+                location: [ 45.743508, 4.846877],
+                address: "Lyonzer"
               }
             ]
       }
     }
-    this.loadBins = this.loadBins.bind(this);
-    this.removePopupMessage = this.removePopupMessage.bind(this);
   }
 
   removePopupMessage() {
     this.state.popupMessage = ""
   }
 
-  loadBins(){
+  loadTrashes(){
     let route = "http://localhost:8081/trashes/list";
     const config = {
       headers: { Authorization: `Bearer ${localStorage.getItem("token")}` }
@@ -92,7 +89,7 @@ class BinMap extends React.Component{
         <Row>
           <Col>
             <div className = "map-one">
-              <Button variant="primary" onClick={() => this.loadBins()}>Charger les poubelles</Button>
+
               <ReactBingmaps
                   bingmapKey = { this.state.bingmapKey }
                   center = {[ 45.743508, 4.846877]}
@@ -100,6 +97,7 @@ class BinMap extends React.Component{
                   directions = {this.state.directions}
               >
               </ReactBingmaps>
+              <Button variant="primary" onClick={() => this.loadTrashes()}>Charger les poubelles</Button>
             </div>
           </Col>
         </Row>
