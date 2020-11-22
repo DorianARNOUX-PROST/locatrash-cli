@@ -27,7 +27,8 @@ class TrashDetail extends React.Component{
             observationlocalisante: "",
             referencemobilier: "",
             support: "",
-            voie: ""
+            voie: "",
+            maPosition: [45.7706136,4.8635859]
         };
     }
 

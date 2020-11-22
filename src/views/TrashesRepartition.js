@@ -5,6 +5,7 @@ import Col from "react-bootstrap/Col";
 import Row from "react-bootstrap/Row";
 import Container from "react-bootstrap/Container";
 import '../styles/styles.css';
+import ViewTitle from "../components/ViewTitle";
 
 class TrashesRepartition extends React.Component{
     constructor(props) {
@@ -58,6 +59,7 @@ class TrashesRepartition extends React.Component{
     render() {
         return (
          <Container>
+             <ViewTitle title={"Statistiques"}/>
              <Row>
                  <Col sm={12} md={6}>
                      <span className={"title_stats"}>Nombre total de poubelles</span>

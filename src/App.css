@@ -21,8 +21,10 @@ div#eleven {
 
 .container {
 	background-color: white;
+	margin-bottom: 100px;
+	padding-bottom: 30px;
 }
 
-#root{
+html, #root{
 	background-color: #343a40;
 }
