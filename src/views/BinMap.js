@@ -8,48 +8,67 @@ import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 
 class BinMap extends React.Component{
-
   constructor(props) {
     super(props);
     this.state = {
       isVisible : true,
       bingmapKey: "Ak_-kDEjK1mCGeLhULqNo5zAk3HoOS3Z8NUlcJsOBLyaua-Hpbu3B9mv01BNmgdU",
       popupMessage: "",
-      pushPins : []
+      pushPins : [],
+      directions: {
+        "inputPanel": "inputPanel",
+        "renderOptions": {"itineraryContainer": "itineraryContainer" },
+        "requestOptions": {"routeMode": "driving", "maxRoutes": 2},
+        "wayPoints": [
+              {
+                address: 'Chennai, Tamilnadu'
+              },
+              {
+                address: 'Salem, Tamilnadu'
+              },
+              {
+                address: 'Coimbatore, Tamilnadu'
+              }
+            ]
+      }
     }
+    this.loadBins = this.loadBins.bind(this);
+    this.removePopupMessage = this.removePopupMessage.bind(this);
   }
 
   removePopupMessage() {
     this.state.popupMessage = ""
   }
 
-  componentDidMount(){
+  loadBins(){
     let route = "http://localhost:8081/trashes/list";
     const config = {
       headers: { Authorization: `Bearer ${localStorage.getItem("token")}` }
     };
     let pushPinsUpdated = [];
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(function(position) {
+        console.log(position.coords.latitude)
+        pushPinsUpdated.push({
+          "id": 1, "location":[parseFloat(position.coords.latitude), parseFloat(position.coords.longitude)], "option":{ color: 'blue' }, "addHandler": {type : "click", callback: () => {window.location.href="/trash" }}
+        })
+      })
+
+    } else {
+      this.state.popupMessage = "Votre navigateur ne supporte pas la geolocalisation"
+    }
     try {
       axios.get(route, config)
       .then((response) => {
         response.data.forEach( (element) => {
           pushPinsUpdated.push({
-            "location":[parseFloat(element.latitude), parseFloat(element.longitude)], "option":{ color: 'green' }, "addHandler": {type : "click", callback: () => {window.location.href="/trash?id="+element.identifiant} }
+            "id": element.identifiant, "location":[parseFloat(element.latitude), parseFloat(element.longitude)], "option":{ color: 'green' }, "addHandler": {type : "click", callback: () => {window.location.href="/trash?id="+element.identifiant} }
           })
       })
-        this.setState({pushPins : pushPinsUpdated});
 
-        /*
-      if (navigator.geolocation) {
-        let position = navigator.geolocation.getCurrentPosition.coords
-        console.log(position)
-        /* pushPinsUpdated.push({
-          "location":[parseFloat(position.latitude), parseFloat(position.longitude)], "option":{ color: 'blue' }, "addHandler": {"type" : "click", callback: this.callBackMethod }
-        })  // NEED HTTPS TO IMPLEMENT GEOLOCATION API
-      } else {
-        this.state.popupMessage = "Votre navigateur ne supporte pas la geolocalisation"
-      }
-      */
+
+      this.setState({pushPins : pushPinsUpdated})
+      console.log(this.state.pushPins)
       });
     }
     catch(error){
@@ -58,9 +77,6 @@ class BinMap extends React.Component{
   }
 
 
-  // componentDidUpdate(prevProps, prevState, snapshot){
-  //   this.setState({pushPins : this.state.pushPinsTmp})
-  // }
 
   render() {
     const popupMessage = this.state.popupMessage
@@ -76,10 +92,12 @@ class BinMap extends React.Component{
         <Row>
           <Col>
             <div className = "map-one">
+              <Button variant="primary" onClick={() => this.loadBins()}>Charger les poubelles</Button>
               <ReactBingmaps
                   bingmapKey = { this.state.bingmapKey }
                   center = {[ 45.743508, 4.846877]}
                   pushPins = { this.state.pushPins }
+                  directions = {this.state.directions}
               >
               </ReactBingmaps>
             </div>
