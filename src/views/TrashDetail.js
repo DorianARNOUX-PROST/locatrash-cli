@@ -13,7 +13,6 @@ class TrashDetail extends React.Component{
         this.state = {
             isVisible : true,
             bingmapKey: "Ak_-kDEjK1mCGeLhULqNo5zAk3HoOS3Z8NUlcJsOBLyaua-Hpbu3B9mv01BNmgdU",
-            pushPins : [],
             code_insee: "",
             codefuv: "",
             collecteur: "",
@@ -33,7 +32,7 @@ class TrashDetail extends React.Component{
             referencemobilier: "",
             support: "",
             voie: "",
-            directions: {},
+            direction: {},
             maPosition: [45.7706136,4.8635859]
         };
         this.addDirections = this.addDirections.bind(this);
@@ -72,40 +71,31 @@ class TrashDetail extends React.Component{
                     });
                 });
         }
-        
+
         catch(error){
             this.setState({error})
         }
     }
 
-    addDirections(position) {
-        console.log(this.state.directions)
-            let directionsUpdated = 
-            {
-                "inputPanel": "inputPanel",
-                "renderOptions": {"itineraryContainer": "itineraryContainer" },
-                "requestOptions": {"routeMode": "walking", "maxRoutes": 1},
-                "wayPoints": [
-                    {
-                        location: [parseFloat(position.coords.latitude), parseFloat(position.coords.latitude)],
-                        address: "Moi"
-                    },
-                    {
-                        location: [this.state.latitude, this.state.longitude],
-                        address: "Poubelle"
-                    }
-                ]
-            }
-            this.setState({directions : directionsUpdated})
-            console.log(this.state.directions)
-    }
+    loadDirectionOnMap(){
+        console.log(this.state.maPosition)
+        let newDirection = {
+            "inputPanel": "inputPanel",
+            "renderOptions": {"itineraryContainer": "itineraryContainer" },
+            "requestOptions": {"routeMode": "walking", "maxRoutes": 1},
+            "wayPoints": [
+                {
+                    location: this.state.maPosition,
+                    address: "Moi"
+                },
+                {
+                    location: [ this.state.latitude, this.state.longitude],
+                    address: "Poubelle"
+                }
+            ]
+        };
 
-    trigger() {
-        if (navigator.geolocation) {
-        navigator.geolocation.getCurrentPosition(function(position){
-            this.addDirections(position)
-        }
-        )}
+        this.setState({direction : newDirection})
     }
 
 
@@ -124,15 +114,19 @@ class TrashDetail extends React.Component{
                             <ReactBingmaps
                             bingmapKey = { this.state.bingmapKey }
                             center = {[ 45.743508, 4.846877]}
-                            pushPins = { this.state.pushPins }
-                            directions = {this.state.directions}
+                            directions = {this.state.direction}
                             >
                             </ReactBingmaps>
-                            <Button variant="primary" onClick={() => this.trigger()}>Trigger</Button>
+
                         </div>
                     </Col>
                 </Row>
-                
+                <Row>
+                    <Col sm={12} className={"textCenter"}>
+                        <Button variant="success" className={"margin15"} onClick={() => this.loadDirectionOnMap()}>Charger la direction sur la map</Button>
+                    </Col>
+                </Row>
+
             </Container>
         );
     }

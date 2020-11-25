@@ -69,7 +69,7 @@ class BinMap extends React.Component{
     }
   }
 
-  loadTrashes(){
+  loadTrashesOnMap(){
     let pushPinsUpdated = [];
     this.state.trashes.forEach( (element) => {
       pushPinsUpdated.push({
@@ -113,7 +113,7 @@ class BinMap extends React.Component{
         </Row>
         <Row>
           <Col sm={12} className={"textCenter"}>
-            <Button variant="success" className={"margin15"} onClick={() => this.loadTrashes()}>Charger les poubelles sur la map</Button>
+            <Button variant="success" className={"margin15"} onClick={() => this.loadTrashesOnMap()}>Charger les poubelles sur la map</Button>
           </Col>
         </Row>
         <Row>
