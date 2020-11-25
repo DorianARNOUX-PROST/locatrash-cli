@@ -12,7 +12,7 @@ class App extends React.Component{
           <ViewTitle title={"Accueil"}/>
         <Row>
           <Col>
-            Page d'accueil
+            Veuillez créer un compte ou vous connecter afin d'accéder à la carte interactive.
           </Col>
         </Row>
       </Container>

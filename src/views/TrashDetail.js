@@ -36,7 +36,8 @@ class TrashDetail extends React.Component{
             directions: {},
             maPosition: [45.7706136,4.8635859]
         };
-        this.trigger=this.trigger.bind(this)
+        this.addDirections = this.addDirections.bind(this);
+        this.trigger = this.trigger.bind(this);
     }
 
     componentDidMount = () => {
@@ -77,10 +78,8 @@ class TrashDetail extends React.Component{
         }
     }
 
-    trigger() {
-        if (navigator.geolocation) {
-        navigator.geolocation.getCurrentPosition(function(position){
-            console.log(this.state.directions)
+    addDirections(position) {
+        console.log(this.state.directions)
             let directionsUpdated = 
             {
                 "inputPanel": "inputPanel",
@@ -99,6 +98,12 @@ class TrashDetail extends React.Component{
             }
             this.setState({directions : directionsUpdated})
             console.log(this.state.directions)
+    }
+
+    trigger() {
+        if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(function(position){
+            this.addDirections(position)
         }
         )}
     }
