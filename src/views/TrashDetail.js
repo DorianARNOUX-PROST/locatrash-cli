@@ -4,11 +4,16 @@ import Col from "react-bootstrap/Col";
 import Row from "react-bootstrap/Row";
 import Container from "react-bootstrap/Container";
 import '../styles/styles.css';
+import { ReactBingmaps } from 'react-bingmaps-plus';
+import {Button} from 'react-bootstrap';
 
 class TrashDetail extends React.Component{
     constructor(props) {
         super(props);
         this.state = {
+            isVisible : true,
+            bingmapKey: "Ak_-kDEjK1mCGeLhULqNo5zAk3HoOS3Z8NUlcJsOBLyaua-Hpbu3B9mv01BNmgdU",
+            pushPins : [],
             code_insee: "",
             codefuv: "",
             collecteur: "",
@@ -27,11 +32,13 @@ class TrashDetail extends React.Component{
             observationlocalisante: "",
             referencemobilier: "",
             support: "",
-            voie: ""
+            voie: "",
+            directions: {}
         };
+        this.trigger=this.trigger.bind(this)
     }
 
-    componentDidMount(){
+    componentDidMount = () => {
         let id=new URLSearchParams(window.location.search).get('id');
         let route = "http://localhost:8081/trashes/trash/"+id;
         const config = {
@@ -63,9 +70,36 @@ class TrashDetail extends React.Component{
                     });
                 });
         }
+        
         catch(error){
             this.setState({error})
         }
+    }
+
+    trigger() {
+        if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(function(position){
+            console.log(this.state.directions)
+            let directionsUpdated = 
+            {
+                "inputPanel": "inputPanel",
+                "renderOptions": {"itineraryContainer": "itineraryContainer" },
+                "requestOptions": {"routeMode": "walking", "maxRoutes": 1},
+                "wayPoints": [
+                    {
+                        location: [parseFloat(position.coords.latitude), parseFloat(position.coords.latitude)],
+                        address: "Moi"
+                    },
+                    {
+                        location: [this.state.latitude, this.state.longitude],
+                        address: "Poubelle"
+                    }
+                ]
+            }
+            this.setState({directions : directionsUpdated})
+            console.log(this.state.directions)
+        }
+        )}
     }
 
 
@@ -78,6 +112,21 @@ class TrashDetail extends React.Component{
                         <span className={"subtitle_stats"}>{this.state.identifiant}</span>
                     </Col>
                 </Row>
+                <Row>
+                    <Col>
+                        <div className = "map-one">
+                            <ReactBingmaps
+                            bingmapKey = { this.state.bingmapKey }
+                            center = {[ 45.743508, 4.846877]}
+                            pushPins = { this.state.pushPins }
+                            directions = {this.state.directions}
+                            >
+                            </ReactBingmaps>
+                            <Button variant="primary" onClick={() => this.trigger()}>Trigger</Button>
+                        </div>
+                    </Col>
+                </Row>
+                
             </Container>
         );
     }

@@ -15,21 +15,6 @@ class BinMap extends React.Component{
       bingmapKey: "Ak_-kDEjK1mCGeLhULqNo5zAk3HoOS3Z8NUlcJsOBLyaua-Hpbu3B9mv01BNmgdU",
       popupMessage: "",
       pushPins : [],
-      directions: {
-        "inputPanel": "inputPanel",
-        "renderOptions": {"itineraryContainer": "itineraryContainer" },
-        "requestOptions": {"routeMode": "walking", "maxRoutes": 1},
-        "wayPoints": [
-              {
-                location: [45.7337532, 4.9092352],
-                address: "BronCity"
-              },
-              {
-                location: [ 45.743508, 4.846877],
-                address: "Lyonzer"
-              }
-            ]
-      }
     }
   }
 
@@ -45,7 +30,6 @@ class BinMap extends React.Component{
     let pushPinsUpdated = [];
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(function(position) {
-        console.log(position.coords.latitude)
         pushPinsUpdated.push({
           "id": 1, "location":[parseFloat(position.coords.latitude), parseFloat(position.coords.longitude)], "option":{ color: 'blue' }, "addHandler": {type : "click", callback: () => {window.location.href="/trash" }}
         })
@@ -62,10 +46,7 @@ class BinMap extends React.Component{
             "id": element.identifiant, "location":[parseFloat(element.latitude), parseFloat(element.longitude)], "option":{ color: 'green' }, "addHandler": {type : "click", callback: () => {window.location.href="/trash?id="+element.identifiant} }
           })
       })
-
-
       this.setState({pushPins : pushPinsUpdated})
-      console.log(this.state.pushPins)
       });
     }
     catch(error){
