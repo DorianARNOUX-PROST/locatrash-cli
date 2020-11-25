@@ -33,7 +33,8 @@ class TrashDetail extends React.Component{
             referencemobilier: "",
             support: "",
             voie: "",
-            directions: {}
+            directions: {},
+            maPosition: [45.7706136,4.8635859]
         };
         this.trigger=this.trigger.bind(this)
     }
