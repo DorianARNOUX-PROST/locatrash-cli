@@ -25,6 +25,8 @@ class Navbars extends React.Component{
 
   logout(){
     localStorage.removeItem("token")
+    localStorage.removeItem("id")
+    localStorage.removeItem("name")
     window.location.href='/';
   }
 

@@ -37,6 +37,8 @@ class Signup extends Component {
       axios.post(route, signUpUser)
       .then((response) => {
         localStorage.setItem('token', response.data.token);
+        localStorage.setItem('id', response.data.id);
+        localStorage.setItem('name', response.data.name);
         window.location.href='/';
       })
     }
