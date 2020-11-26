@@ -20,21 +20,8 @@ class BinMap extends React.Component{
       popupMessage: "",
       pushPins : [],
       trashes: [],
-      directions: {
-        "inputPanel": "inputPanel",
-        "renderOptions": {"itineraryContainer": "itineraryContainer" },
-        "requestOptions": {"routeMode": "walking", "maxRoutes": 1},
-        "wayPoints": [
-              {
-                location: [45.7337532, 4.9092352],
-                address: "BronCity"
-              },
-              {
-                location: [ 45.743508, 4.846877],
-                address: "Lyonzer"
-              }
-            ]
-      }
+      maLat: 0,
+      maLon: 0
     }
   }
 
@@ -47,22 +34,42 @@ class BinMap extends React.Component{
     const config = {
       headers: { Authorization: `Bearer ${localStorage.getItem("token")}` }
     };
-    let pushPinsUpdated = [];
-    if (navigator.geolocation) {
-      navigator.geolocation.getCurrentPosition(function(position) {
-        pushPinsUpdated.push({
-          "id": 1, "location":[parseFloat(position.coords.latitude), parseFloat(position.coords.longitude)], "option":{ color: 'blue' }, "addHandler": {type : "click", callback: () => {window.location.href="/trash" }}
-        })
-      })
-
-    } else {
-      this.state.popupMessage = "Votre navigateur ne supporte pas la geolocalisation"
-    }
     try {
       axios.get(route, config)
         .then((response) => {
           this.setState({trashes : response.data})
         });
+    }
+    catch(error){
+      this.setState({error})
+    }
+    const success = position => {
+      const latitude = position.coords.latitude;
+      const longitude = position.coords.longitude;
+      console.log(latitude, longitude);
+      this.setState({maLat : latitude, maLon : longitude});
+    };
+
+    const error = () => {
+      console.log("Unable to retrieve your location");
+      this.setState({maLat : 45.7791677, maLon : 4.8683428});
+      this.setState({popupMessage: "Votre navigateur ne supporte pas la geolocalisation, localisation => Polytech Lyon"});
+    };
+
+    navigator.geolocation.getCurrentPosition(success, error);
+  }
+
+  goToNearestTrash(){
+    let route = "http://localhost:8081/trashes/nearest/"+this.state.maLat+"/"+this.state.maLon;
+    const config = {
+      headers: { Authorization: `Bearer ${localStorage.getItem("token")}` }
+    };
+    try {
+      console.log("try")
+      axios.get(route, config)
+          .then((response) => {
+            window.location.href="/trash?id="+response.data
+          });
     }
     catch(error){
       this.setState({error})
@@ -114,6 +121,11 @@ class BinMap extends React.Component{
         <Row>
           <Col sm={12} className={"textCenter"}>
             <Button variant="success" className={"margin15"} onClick={() => this.loadTrashesOnMap()}>Charger les poubelles sur la map</Button>
+          </Col>
+        </Row>
+        <Row>
+          <Col sm={12} className={"textCenter"}>
+            <Button variant="success" className={"margin15"} onClick={() => this.goToNearestTrash()}>Poubelle la plus proche</Button>
           </Col>
         </Row>
         <Row>

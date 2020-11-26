@@ -6,6 +6,7 @@ import Container from "react-bootstrap/Container";
 import '../styles/styles.css';
 import { ReactBingmaps } from 'react-bingmaps-plus';
 import {Button} from 'react-bootstrap';
+import Popup from "reactjs-popup";
 
 class TrashDetail extends React.Component{
     constructor(props) {
@@ -33,10 +34,9 @@ class TrashDetail extends React.Component{
             support: "",
             voie: "",
             direction: {},
-            maPosition: [45.7706136,4.8635859]
+            maPosition: [],
+            popupMessage: "LE CHIBRE",
         };
-        this.addDirections = this.addDirections.bind(this);
-        this.trigger = this.trigger.bind(this);
     }
 
     componentDidMount = () => {
@@ -71,18 +71,31 @@ class TrashDetail extends React.Component{
                     });
                 });
         }
-
         catch(error){
             this.setState({error})
         }
+
+        const success = position => {
+            const latitude = position.coords.latitude;
+            const longitude = position.coords.longitude;
+            console.log(latitude, longitude);
+            this.setState({maPosition: [latitude,longitude]});
+        };
+
+        const error = () => {
+            console.log("Unable to retrieve your location");
+            this.setState({maPosition: [45.7791677,4.8683428]});
+            this.setState({popupMessage: "Votre navigateur ne supporte pas la geolocalisation"});
+        };
+
+        navigator.geolocation.getCurrentPosition(success, error);
     }
 
     loadDirectionOnMap(){
         console.log(this.state.maPosition)
         let newDirection = {
-            "inputPanel": "inputPanel",
-            "renderOptions": {"itineraryContainer": "itineraryContainer" },
-            "requestOptions": {"routeMode": "walking", "maxRoutes": 1},
+            "renderOptions": {"autoUpdateMapView": true},
+            "requestOptions": {"routeMode": "walking", "maxRoutes": 1, "distanceUnit": "km", "routeDraggable": false},
             "wayPoints": [
                 {
                     location: this.state.maPosition,
@@ -94,14 +107,21 @@ class TrashDetail extends React.Component{
                 }
             ]
         };
-
         this.setState({direction : newDirection})
     }
 
 
     render() {
+        const popupMessage = this.state.popupMessage
         return (
             <Container>
+                {popupMessage ?
+                    <Popup position="right center">
+                        <div>{popupMessage}</div>
+                        <Button variant="success" onClick={() => this.removePopupMessage()}>Ok</Button>
+                    </Popup>
+                    : <div></div>
+                }
                 <Row>
                     <Col>
                         <span className={"title_stats"}>Identifiant de la poubelle</span>

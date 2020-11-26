@@ -30,11 +30,11 @@ class Signin extends Component {
     .then((response) => {
       console.log(response);
       localStorage.setItem('token', response.data.token);
+      window.location.href='/';
     })
     .catch(function (error) {
 
     });
-    //window.location.href='/map';
   }
 
   render() {
