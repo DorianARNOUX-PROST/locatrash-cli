@@ -3,10 +3,7 @@ import {Button, Image} from 'react-bootstrap';
 import axios from 'axios';
 import Form from "react-bootstrap/Form";
 import ViewTitle from "../components/ViewTitle";
-import locatrash_banner2_alpha from "../assets/locatrash_banner2_alpha.png";
-import Row from "react-bootstrap/Row";
-import Col from "react-bootstrap/Col";
-import Container from "reactstrap/es/Container";
+import Container from "react-bootstrap/Container";
 
 
 class Signin extends Component {
@@ -18,33 +15,26 @@ class Signin extends Component {
     this.state = {
       email: '',
       password: '',
-      error: {
-        message: ''
-      }
+      error: ''
     }
   }
 
-  validateForm() {
-    return this.state.email.length > 0 && this.state.password.length > 0;
-  }
-
   signIn() {
-
-    const user = {
-      "email": this.state.email,
-      "password": this.state.password,
+    const logInUser = {
+      email: this.state.email,
+      password: this.state.password
     };
-
     let route = "http://localhost:8081/auth/login";
-    axios.post(route, user)
-    .then((response) => {
-      console.log(response);
-      localStorage.setItem('token', response.data.token);
-      window.location.href='/';
-    })
-    .catch(function (error) {
-
-    });
+    try{
+      axios.post(route, logInUser)
+          .then((response) => {
+            localStorage.setItem('token', response.data.token);
+            window.location.href='/';
+          })
+    }
+    catch(error) {
+      this.setState({error})
+    }
   }
 
   render() {
@@ -52,11 +42,10 @@ class Signin extends Component {
         <Container>
           <ViewTitle title={"Se connecter"}/>
           <div className="Login">
-          <Form onSubmit={this.signIn()}>
+          <Form>
             <Form.Group size="lg" controlId="email">
               <Form.Label>Email</Form.Label>
               <Form.Control
-                  autoFocus
                   type="text"
                   placeholder="Email"
                   onChange={event => this.setState({email: event.target.value})}
@@ -70,7 +59,7 @@ class Signin extends Component {
                   onChange={event => this.setState({password: event.target.value})}
               />
             </Form.Group>
-            <Button variant="success" block size="lg" type="submit" disabled={!this.validateForm()}>Se connecter</Button>
+            <Button variant="success" block size="lg" onClick={() => this.signIn()}>Se connecter</Button>
           </Form>
           </div>
         </Container>
