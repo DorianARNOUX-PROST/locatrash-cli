@@ -80,3 +80,6 @@ a:hover{
 	font-size: 120%;
 }
 
+td, th{
+	vertical-align: middle !important;
+}

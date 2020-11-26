@@ -5,7 +5,7 @@ import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import ViewTitle from "./components/ViewTitle";
 import {Image, Nav} from "react-bootstrap";
-import locatrash_banner2_alpha from './assets/locatrash_banner2_alpha.png'
+import locatrash_banner2_alpha from './assets/locatrash_banner2_alpha.png';
 
 class App extends React.Component{
     constructor(props) {

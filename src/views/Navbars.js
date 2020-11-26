@@ -54,6 +54,7 @@ class Navbars extends React.Component{
             {this.state.loggedIn ?
 
                 <React.Fragment>
+                  <Nav.Link href="favoris">Mes favoris</Nav.Link>
                   <Nav.Link onClick={() => this.logout()}>Se deconnecter</Nav.Link>
                 </React.Fragment>
                 :

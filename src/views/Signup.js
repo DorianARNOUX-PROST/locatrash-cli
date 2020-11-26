@@ -48,24 +48,24 @@ class Signup extends Component {
   render() {
     return (
       <Container>
-          <ViewTitle title={"Creer un compte"}/>
+          <ViewTitle title={"Créer un compte"}/>
           <div className="Login">
           <Form>
-            <Form.Group size="lg" controlId="prenom">
-              <Form.Label>Prénom</Form.Label>
-              <Form.Control
-                  autoFocus
-                  type="text"
-                  placeholder="Prénom"
-                  onChange={event => this.setState({name: event.target.value})}
-              />
-            </Form.Group>
             <Form.Group size="lg" controlId="nom">
               <Form.Label>Nom</Form.Label>
               <Form.Control
+                  autoFocus
                   type="text"
                   placeholder="Nom"
                   onChange={event => this.setState({surname: event.target.value})}
+              />
+            </Form.Group>
+            <Form.Group size="lg" controlId="prenom">
+              <Form.Label>Prénom</Form.Label>
+              <Form.Control
+                  type="text"
+                  placeholder="Prénom"
+                  onChange={event => this.setState({name: event.target.value})}
               />
             </Form.Group>
             <Form.Group size="lg" controlId="email">
