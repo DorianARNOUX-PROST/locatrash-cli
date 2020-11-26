@@ -21,34 +21,28 @@ class Signup extends Component {
       surname: '',
       email: '',
       password: '',
-      error: {
-        message: ''
-      }
+      error: ''
     }
   }
 
-  validateForm() {
-    return this.state.email.length > 0 && this.state.password.length > 0;
-  }
-
   signUp() {
-
-    const user = {
+    const signUpUser = {
       name: this.state.name,
       surname: this.state.surname,
       email: this.state.email,
-      password: this.state.password,
+      password: this.state.password
     };
-
-    let route = "localhost:8081/user/add";
-    axios.post(route, { user })
-    .then((response) => {
-      console.log(response);
-      console.log(response.data);
-    })
-    .catch(error => {
+    let route = "http://localhost:8081/auth/signup";
+    try{
+      axios.post(route, signUpUser)
+      .then((response) => {
+        localStorage.setItem('token', response.data.token);
+        window.location.href='/';
+      })
+    }
+    catch(error) {
       this.setState({error})
-    });
+    }
   }
 
   render() {
@@ -56,7 +50,7 @@ class Signup extends Component {
       <Container>
           <ViewTitle title={"Creer un compte"}/>
           <div className="Login">
-          <Form onSubmit={this.signUp()}>
+          <Form>
             <Form.Group size="lg" controlId="prenom">
               <Form.Label>Prénom</Form.Label>
               <Form.Control
@@ -69,7 +63,6 @@ class Signup extends Component {
             <Form.Group size="lg" controlId="nom">
               <Form.Label>Nom</Form.Label>
               <Form.Control
-                  autoFocus
                   type="text"
                   placeholder="Nom"
                   onChange={event => this.setState({surname: event.target.value})}
@@ -78,7 +71,6 @@ class Signup extends Component {
             <Form.Group size="lg" controlId="email">
               <Form.Label>Email</Form.Label>
               <Form.Control
-                  autoFocus
                   type="text"
                   placeholder="Email"
                   onChange={event => this.setState({email: event.target.value})}
@@ -92,8 +84,7 @@ class Signup extends Component {
                   onChange={event => this.setState({password: event.target.value})}
               />
             </Form.Group>
-            <Button variant="success" block size="lg" type="submit" disabled={!this.validateForm()}>Creer mon compte</Button>
-            <Button variant="success" block size="lg" onClick={event =>  window.location.href='/signin'}>J'ai deja un compte</Button>
+            <Button variant="success" block size="lg" onClick={() => this.signUp()}>Créer mon compte</Button>
           </Form>
           </div>
         </Container>
