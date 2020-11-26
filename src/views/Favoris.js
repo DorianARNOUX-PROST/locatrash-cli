@@ -24,7 +24,7 @@ class Favoris extends React.Component{
     }
 
     componentDidMount() {
-        let route = "http://localhost:8081/favoris/trashes/1";
+        let route = "http://localhost:8081/favoris/trashes/"+localStorage.getItem("id");
         const config = {
             headers: { Authorization: `Bearer ${localStorage.getItem("token")}` }
         };

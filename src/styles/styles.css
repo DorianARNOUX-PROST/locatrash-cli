@@ -49,4 +49,19 @@
     padding: 30px;
 }
 
+.favButton{
+    color: #dc3545;
+    margin-left: 15px;
+    font-size: 400%;
+    cursor:pointer;
+}
+
+.notFavButton{
+    color: #000;
+    margin-left: 15px;
+    font-size: 400%;
+    cursor:pointer;
+}
+
+
 

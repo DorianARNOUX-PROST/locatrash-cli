@@ -11,13 +11,15 @@ class App extends React.Component{
     constructor(props) {
         super(props)
         this.state = {
-            loggedIn: false
+            loggedIn: false,
+            username: ""
         }
     }
 
     componentDidMount() {
         if (localStorage.getItem("token") != null) {
-            this.setState({ loggedIn: true })
+            this.setState({ loggedIn: true });
+            this.setState({ username: localStorage.getItem("name")});
         }
     }
 
@@ -37,7 +39,7 @@ class App extends React.Component{
               <Col>
                   {this.state.loggedIn ?
                       <React.Fragment>
-
+                          <span className={"homeLoggedInfo"}>Bonjour <span className={"mainColor"}>{this.state.username}</span>, nous sommes heureux de vous revoir.</span>
                       </React.Fragment>
                       :
                       <React.Fragment>

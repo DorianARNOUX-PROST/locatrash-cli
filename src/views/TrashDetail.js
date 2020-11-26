@@ -7,6 +7,9 @@ import '../styles/styles.css';
 import { ReactBingmaps } from 'react-bingmaps-plus';
 import {Button} from 'react-bootstrap';
 import Popup from "reactjs-popup";
+import {faHeart} from "@fortawesome/free-solid-svg-icons";
+import {faHeart as farHeart} from "@fortawesome/free-regular-svg-icons";
+import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 
 class TrashDetail extends React.Component{
     constructor(props) {
@@ -36,6 +39,8 @@ class TrashDetail extends React.Component{
             direction: {},
             maPosition: [],
             popupMessage: "LE CHIBRE",
+            isFavorite: false,
+            idFav: ""
         };
     }
 
@@ -75,6 +80,21 @@ class TrashDetail extends React.Component{
             this.setState({error})
         }
 
+        route = "http://localhost:8081/favoris/list/"+localStorage.getItem("id");
+        try {
+            axios.get(route, config)
+                .then((response) => {
+                        response.data.forEach( (element) => {
+                            if(element.trashId===id){
+                                this.setState({ isFavorite: true, idFav: element.id})
+                            }
+                        })
+                });
+        }
+        catch(error){
+            this.setState({error})
+        }
+
         const success = position => {
             const latitude = position.coords.latitude;
             const longitude = position.coords.longitude;
@@ -84,8 +104,7 @@ class TrashDetail extends React.Component{
 
         const error = () => {
             console.log("Unable to retrieve your location");
-            this.setState({maPosition: [45.7791677,4.8683428]});
-            this.setState({popupMessage: "Votre navigateur ne supporte pas la geolocalisation"});
+            this.setState({maPosition: [45.7791677,4.8683428],popupMessage: "Votre navigateur ne supporte pas la geolocalisation"});
         };
 
         navigator.geolocation.getCurrentPosition(success, error);
@@ -110,9 +129,46 @@ class TrashDetail extends React.Component{
         this.setState({direction : newDirection})
     }
 
+    removeFav(){
+        let trashId=new URLSearchParams(window.location.search).get('id');
+        let route = "http://localhost:8081/favoris/remove/"+this.state.idFav;
+        const config = {
+            headers: { Authorization: `Bearer ${localStorage.getItem("token")}` }
+        };
+        try {
+            axios.delete(route, config)
+                .then((response) => {
+                    window.location.href="/trash?id="+trashId;
+                });
+        }
+        catch(error){
+            this.setState({error})
+        }
+    }
+
+    addFav(){
+        let trashId=new URLSearchParams(window.location.search).get('id');
+        let route = "http://localhost:8081/favoris/add/"+localStorage.getItem("id")+"/"+trashId;
+        const config = {
+            headers: { Authorization: `Bearer ${localStorage.getItem("token")}` }
+        };
+        try {
+            console.log(route)
+            console.log(config)
+            axios.get(route, config)
+                .then((response) => {
+                    window.location.href="/trash?id="+trashId;
+                });
+        }
+        catch(error){
+            this.setState({error})
+        }
+    }
+
 
     render() {
         const popupMessage = this.state.popupMessage
+        console.log(this.state.isFavorite)
         return (
             <Container>
                 {popupMessage ?
@@ -123,9 +179,20 @@ class TrashDetail extends React.Component{
                     : <div></div>
                 }
                 <Row>
-                    <Col>
+                    <Col sm={10}>
                         <span className={"title_stats"}>Identifiant de la poubelle</span>
                         <span className={"subtitle_stats"}>{this.state.identifiant}</span>
+                    </Col>
+                    <Col sm={2} style={{margin:"auto 0px"}}>
+                        {this.state.isFavorite ?
+                            <React.Fragment>
+                                <FontAwesomeIcon className={"favButton"} icon={faHeart} onClick={() => this.removeFav()}/>
+                            </React.Fragment>
+                            :
+                            <React.Fragment>
+                                <FontAwesomeIcon className={"notFavButton"} icon={farHeart} onClick={() => this.addFav()}/>
+                            </React.Fragment>
+                        }
                     </Col>
                 </Row>
                 <Row>
