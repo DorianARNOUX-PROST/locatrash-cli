@@ -1,6 +1,8 @@
-.form-group {
-    display: none;
+.Login {
+    padding: 60px 0;
 }
-.form-control {
-    display: none;
+
+.Login form {
+    margin: 0 auto;
+    max-width: 500px;
 }
