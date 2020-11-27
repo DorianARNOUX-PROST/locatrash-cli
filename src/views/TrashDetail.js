@@ -10,6 +10,7 @@ import Popup from "reactjs-popup";
 import {faHeart} from "@fortawesome/free-solid-svg-icons";
 import {faHeart as farHeart} from "@fortawesome/free-regular-svg-icons";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
+import Table from "react-bootstrap/Table";
 
 class TrashDetail extends React.Component{
     constructor(props) {
@@ -168,6 +169,9 @@ class TrashDetail extends React.Component{
 
     render() {
         const popupMessage = this.state.popupMessage
+        const voie = this.state.voie
+        const observationlocalisante = this.state.observationlocalisante
+        const collecteur = this.state.collecteur
         console.log(this.state.isFavorite)
         return (
             <Container>
@@ -210,9 +214,63 @@ class TrashDetail extends React.Component{
                 </Row>
                 <Row>
                     <Col sm={12} className={"textCenter"}>
-                        <Button variant="success" className={"margin15"} onClick={() => this.loadDirectionOnMap()}>Charger la direction sur la map</Button>
+                        <Button variant="success" className={"margin15"} onClick={() => this.loadDirectionOnMap()}>Itinéraire</Button>
                     </Col>
                 </Row>
+                <Table>
+                <Row>
+                    {voie ?
+                        <tr>
+                            <td>
+                                <span>Adresse</span>
+                            </td>
+                            <td>
+                                <span>{this.state.numerodansvoie} {this.state.voie} {this.state.commune}</span>
+                            </td>
+                        </tr>
+                        :
+                        <span></span>
+                    }
+                </Row>
+                <Row>
+                    {observationlocalisante ?
+                    <tr>
+                        <td>
+                            <span>Indication</span>
+                        </td>
+                        <td>
+                            <span>{this.state.observationlocalisante}</span>
+                        </td>
+                    </tr>
+                    :
+                    <span></span>
+                    }
+                </Row>
+                <Row>
+                    <tr>
+                        <td>
+                            <span>Type de support</span>
+                        </td>
+                        <td>
+                            <span>{this.state.support}</span>
+                        </td>
+                    </tr>
+                </Row>
+                <Row>
+                    {collecteur ?
+                        <tr>
+                            <td>
+                                <span>Collecteur</span>
+                            </td>
+                            <td>
+                                <span>{this.state.collecteur}</span>
+                            </td>
+                        </tr>
+                        :
+                        <span></span>
+                    }
+                </Row>
+                </Table>
 
             </Container>
         );
