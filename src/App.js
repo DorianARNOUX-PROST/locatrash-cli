@@ -4,15 +4,18 @@ import Container from "reactstrap/es/Container";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import ViewTitle from "./components/ViewTitle";
-import {Image, Nav} from "react-bootstrap";
+import {Button, Image, Nav} from "react-bootstrap";
 import locatrash_banner2_alpha from './assets/locatrash_banner2_alpha.png';
+import axios from "axios";
 
 class App extends React.Component{
     constructor(props) {
         super(props)
         this.state = {
             loggedIn: false,
-            username: ""
+            username: "",
+            maLat: 0,
+            maLon: 0
         }
     }
 
@@ -20,6 +23,35 @@ class App extends React.Component{
         if (localStorage.getItem("token") != null) {
             this.setState({ loggedIn: true });
             this.setState({ username: localStorage.getItem("name")});
+        }
+        const success = position => {
+            const latitude = position.coords.latitude;
+            const longitude = position.coords.longitude;
+            console.log(latitude, longitude);
+            this.setState({maLat : latitude, maLon : longitude});
+        };
+        const error = () => {
+            console.log("Unable to retrieve your location");
+            this.setState({maLat : 45.7791677, maLon : 4.8683428});
+            this.setState({popupMessage: "Votre navigateur ne supporte pas la geolocalisation, localisation => Polytech Lyon"});
+        };
+        navigator.geolocation.getCurrentPosition(success, error);
+    }
+
+    goToNearestTrash(){
+        let route = "http://localhost:8081/trashes/nearest/"+this.state.maLat+"/"+this.state.maLon;
+        const config = {
+            headers: { Authorization: `Bearer ${localStorage.getItem("token")}` }
+        };
+        try {
+            console.log("try")
+            axios.get(route, config)
+                .then((response) => {
+                    window.location.href="/trash?id="+response.data
+                });
+        }
+        catch(error){
+            this.setState({error})
         }
     }
 
@@ -40,6 +72,7 @@ class App extends React.Component{
                   {this.state.loggedIn ?
                       <React.Fragment>
                           <span className={"homeLoggedInfo"}>Bonjour <span className={"mainColor"}>{this.state.username}</span>, nous sommes heureux de vous revoir.</span>
+                          <div className={"textCenter"}><Button variant="success" className={"margin15"} onClick={() => this.goToNearestTrash()}>Trouver la poubelle la plus proche</Button></div>
                       </React.Fragment>
                       :
                       <React.Fragment>
