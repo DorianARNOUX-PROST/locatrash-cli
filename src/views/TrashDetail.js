@@ -135,23 +135,32 @@ class TrashDetail extends React.Component{
 
     clearTime(time){
         console.log(time)
-        let s,m,h
+        let s=0,m=0,h=0
+        let secondes,minutes,heures
         s=time
+
         if(s>60){
             m=Math.trunc(s/60)
             s=s%60
             if(m>60){
                 h=Math.trunc(m/60)
                 m=m%60
-                return h+ " heures, "+m+" minutes et "+s+" secondes"
-            }
-            else{
-                return m+ " minutes et "+s+" secondes"
             }
         }
-        else{
-            return s+" secondes"
-        }
+
+        if(s===1) secondes=s+" seconde "
+        else if(s>1) secondes=s+" secondes "
+        else secondes=""
+
+        if(m===1) minutes=m+" minute "
+        else if(m>1) minutes=m+ " minutes "
+        else minutes=""
+
+        if(h===1) heures=h+" heure "
+        else if(h>1) heures=h+ " heures "
+        else heures=""
+
+        return heures+minutes+secondes
     }
 
     clearDistance(dist){
@@ -159,7 +168,7 @@ class TrashDetail extends React.Component{
             return dist*1000+" mètres"
         }
         else{
-            return dist+" kilomètres"
+            return dist.toFixed(1)+" kilomètres"
         }
     }
 
@@ -190,8 +199,9 @@ class TrashDetail extends React.Component{
     }
 
     removeFav(){
+        let userId=localStorage.getItem("id");
         let trashId=new URLSearchParams(window.location.search).get('id');
-        let route = "http://localhost:8081/favoris/remove/"+this.state.idFav;
+        let route = "http://localhost:8081/favoris/remove/"+userId+"/"+trashId;
         const config = {
             headers: { Authorization: `Bearer ${localStorage.getItem("token")}` }
         };
@@ -207,8 +217,9 @@ class TrashDetail extends React.Component{
     }
 
     addFav(){
+        let userId=localStorage.getItem("id");
         let trashId=new URLSearchParams(window.location.search).get('id');
-        let route = "http://localhost:8081/favoris/add/"+localStorage.getItem("id")+"/"+trashId;
+        let route = "http://localhost:8081/favoris/add/"+userId+"/"+trashId;
         const config = {
             headers: { Authorization: `Bearer ${localStorage.getItem("token")}` }
         };

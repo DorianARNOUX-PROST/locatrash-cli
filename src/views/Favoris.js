@@ -41,8 +41,9 @@ class Favoris extends React.Component{
         }
     }
 
-    removeFav(id){
-        let route = "http://localhost:8081/favoris/remove/"+id;
+    removeFav(trashId){
+        let userId=localStorage.getItem("id");
+        let route = "http://localhost:8081/favoris/remove/"+userId+"/"+trashId;
         const config = {
             headers: { Authorization: `Bearer ${localStorage.getItem("token")}` }
         };
@@ -107,7 +108,7 @@ class Favoris extends React.Component{
                                                 <td>{item.date}</td>
                                                 <td>
                                                     <Button style={{margin: "0px 10px 0px 0px"}} color={"success"} size="md" onClick={() => this.goToTrash(item.trash.identifiant)}><FontAwesomeIcon icon={faSearch} /></Button>
-                                                    <Button color={"danger"} size="md" onClick={() => this.removeFav(item.id)}><FontAwesomeIcon icon={faTimes} /></Button>
+                                                    <Button color={"danger"} size="md" onClick={() => this.removeFav(item.trash.identifiant)}><FontAwesomeIcon icon={faTimes} /></Button>
                                                 </td>
                                             </tr>
                                         )
