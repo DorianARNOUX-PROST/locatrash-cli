@@ -1,6 +1,6 @@
 import React from 'react';
 import axios from 'axios';
-import DoughnutChart from "../components/DoughnutChart";
+import CustomChart from "../components/CustomChart";
 import Col from "react-bootstrap/Col";
 import Row from "react-bootstrap/Row";
 import Container from "react-bootstrap/Container";
@@ -15,7 +15,9 @@ class TrashesRepartition extends React.Component{
             totalT: 0,
             averageT: 0,
             minT: 0,
-            maxT: 0
+            maxT: 0,
+            generalTitle: "",
+            generalData: []
         };
     }
 
@@ -42,12 +44,14 @@ class TrashesRepartition extends React.Component{
                         title: item.commune,
                         data: [{label: "Autre", value: totalT-item.trashes},{label: item.commune, value: item.trashes}]
                     }));
-                    this.setState({ data });
+                    let generalTitle = "Répartition des poubelles dans les communes du Grand Lyon"
+                    let generalData = []
+                    countByCommune.forEach(item => generalData.push({
+                        label: item.commune,
+                        value: item.trashes}
+                    ));
                     let averageT = (totalT/countByCommune.length).toFixed(2);
-                    this.setState({averageT});
-                    this.setState({totalT});
-                    this.setState({minT});
-                    this.setState({maxT});
+                    this.setState({data,averageT,totalT,minT,maxT, generalTitle, generalData});
                 });
 
         }
@@ -79,14 +83,27 @@ class TrashesRepartition extends React.Component{
                      <span className={"title_stats"}>Détails nombre de poubelles par ville</span>
                  </Col>
              </Row>
+             <Row>
+                 <Col sm="12" className="sub chart-wrapper " style={{marginBottom: "50px"}}>
+                     <CustomChart
+                         data={this.state.generalData}
+                         title={this.state.generalTitle}
+                         colors={['#343a40', '#28a745','#343a40', '#28a745','#343a40', '#28a745','#343a40', '#28a745','#343a40', '#28a745','#343a40', '#28a745','#343a40', '#28a745','#343a40', '#28a745','#343a40', '#28a745','#343a40', '#28a745','#343a40', '#28a745','#343a40', '#28a745','#343a40', '#28a745','#343a40', '#28a745','#343a40', '#28a745','#343a40', '#28a745','#343a40', '#28a745','#343a40', '#28a745','#343a40', '#28a745','#343a40', '#28a745','#343a40', '#28a745','#343a40', '#28a745','#343a40', '#28a745','#343a40', '#28a745','#343a40', '#28a745','#343a40', '#28a745','#343a40', '#28a745','#343a40', '#28a745','#343a40', '#28a745','#343a40', '#28a745']}
+                         height={800}
+                         type={"bar"}
+                     />
+                 </Col>
+             </Row>
             <Row>
                 {this.state.data.map((item, i) => {
                     return (
                         <Col sm="6  " md="3" className="sub chart-wrapper ">
-                            <DoughnutChart
+                            <CustomChart
                                 data={item.data}
                                 title={item.title}
                                 colors={['#343a40', '#28a745']}
+                                height={150}
+                                type={"doughnut"}
                             />
                         </Col>
                         )

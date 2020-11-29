@@ -1,10 +1,12 @@
 import React from "react";
 import Chart from "chart.js"
 
-class DoughnutChart extends React.Component {
+class CustomChart extends React.Component {
     constructor(props) {
         super(props);
         this.canvasRef = React.createRef();
+        this.height = this.props.height
+        this.type = this.props.type
     }
 
     componentDidUpdate() {
@@ -15,7 +17,7 @@ class DoughnutChart extends React.Component {
 
     componentDidMount() {
         this.myChart = new Chart(this.canvasRef.current, {
-            type: 'doughnut',
+            type: this.props.type,
             options: {
                 maintainAspectRatio: false,
                 title: {
@@ -39,7 +41,7 @@ class DoughnutChart extends React.Component {
 
 
     render() {
-        return <canvas ref={this.canvasRef} />;
+        return <canvas height={this.height} ref={this.canvasRef} />;
     }
 }
-export default DoughnutChart;
+export default CustomChart;

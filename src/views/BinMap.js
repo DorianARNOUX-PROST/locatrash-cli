@@ -8,7 +8,7 @@ import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import ViewTitle from "../components/ViewTitle";
 import Table from "react-bootstrap/Table";
-import DoughnutChart from "../components/DoughnutChart";
+import CustomChart from "../components/CustomChart";
 
 class BinMap extends React.Component{
   constructor(props) {
