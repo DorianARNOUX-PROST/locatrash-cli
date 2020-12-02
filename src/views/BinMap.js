@@ -3,6 +3,12 @@ import { ReactBingmaps } from 'react-bingmaps-plus';
 import axios from 'axios';
 import {Button} from 'react-bootstrap';
 import Popup from 'reactjs-popup';
+import Container from "react-bootstrap/Container";
+import Row from "react-bootstrap/Row";
+import Col from "react-bootstrap/Col";
+import ViewTitle from "../components/ViewTitle";
+import Table from "react-bootstrap/Table";
+import CustomChart from "../components/CustomChart";
 
 class BinMap extends React.Component{
   constructor(props) {
@@ -10,51 +16,79 @@ class BinMap extends React.Component{
     this.state = {
       isVisible : true,
       bingmapKey: "Ak_-kDEjK1mCGeLhULqNo5zAk3HoOS3Z8NUlcJsOBLyaua-Hpbu3B9mv01BNmgdU",
+      center: [45.743508, 4.846877],
       popupMessage: "",
-      pushPins : [
-        {
-          "location":[13.0827, 80.2707], "option":{ color: 'red' }, "addHandler": {"type" : "click", callback: this.callBackMethod }
-        }
-      ],
+      pushPins : [],
+      trashes: [],
+      maLat: 0,
+      maLon: 0
     }
-    this.loadBins = this.loadBins.bind(this);
-    this.removePopupMessage = this.removePopupMessage.bind(this);
   }
 
   removePopupMessage() {
     this.state.popupMessage = ""
   }
 
-  loadBins(){
+  componentDidMount() {
     let route = "http://localhost:8081/trashes/list";
     const config = {
       headers: { Authorization: `Bearer ${localStorage.getItem("token")}` }
     };
-    let pushPinsUpdated = [];
     try {
       axios.get(route, config)
-      .then((response) => {
-        response.data.forEach( (element) => {
-          pushPinsUpdated.push({
-            "location":[parseFloat(element.latitude), parseFloat(element.longitude)], "option":{ color: 'green' }, "addHandler": {"type" : "click", callback: this.callBackMethod }
-          })
-      })
-      if (navigator.geolocation) {
-        let position = navigator.geolocation.getCurrentPosition.coords
-        console.log(position)
-        /* pushPinsUpdated.push({
-          "location":[parseFloat(position.latitude), parseFloat(position.longitude)], "option":{ color: 'blue' }, "addHandler": {"type" : "click", callback: this.callBackMethod }
-        }) */ // NEED HTTPS TO IMPLEMENT GEOLOCATION API
-      } else {
-        this.state.popupMessage = "Votre navigateur ne supporte pas la geolocalisation"
-      }
-
-      this.setState({pushPins : pushPinsUpdated})
-      });
+        .then((response) => {
+          this.setState({trashes : response.data})
+        });
     }
     catch(error){
       this.setState({error})
     }
+    const success = position => {
+      const latitude = position.coords.latitude;
+      const longitude = position.coords.longitude;
+      console.log(latitude, longitude);
+      this.setState({maLat : latitude, maLon : longitude});
+    };
+
+    const error = () => {
+      console.log("Unable to retrieve your location");
+      this.setState({maLat : 45.7791677, maLon : 4.8683428});
+      this.setState({popupMessage: "Votre navigateur ne supporte pas la geolocalisation, localisation => Polytech Lyon"});
+    };
+
+    navigator.geolocation.getCurrentPosition(success, error);
+  }
+
+  goToNearestTrash(){
+    let route = "http://localhost:8081/trashes/nearest/"+this.state.maLat+"/"+this.state.maLon;
+    const config = {
+      headers: { Authorization: `Bearer ${localStorage.getItem("token")}` }
+    };
+    try {
+      console.log("try")
+      axios.get(route, config)
+          .then((response) => {
+            window.location.href="/trash?id="+response.data
+          });
+    }
+    catch(error){
+      this.setState({error})
+    }
+  }
+
+  loadTrashesOnMap(){
+    let pushPinsUpdated = [];
+    this.state.trashes.forEach( (element) => {
+      pushPinsUpdated.push({
+        "id": element.identifiant, "location":[parseFloat(element.latitude), parseFloat(element.longitude)], "option":{ color: 'green' }, "addHandler": {type : "click", callback: () => {window.location.href="/trash?id="+element.identifiant} }
+      })
+    })
+    this.setState({pushPins : pushPinsUpdated})
+  }
+
+  displayList(){
+      document.getElementById("displayList").classList.remove('hidden');
+      document.getElementById("buttonList").classList.add('hidden');
   }
 
 
@@ -62,7 +96,7 @@ class BinMap extends React.Component{
   render() {
     const popupMessage = this.state.popupMessage
     return (
-      <div>
+      <Container>
         {popupMessage ?
           <Popup position="right center">
             <div>{popupMessage}</div>
@@ -70,17 +104,90 @@ class BinMap extends React.Component{
           </Popup>
           : <div></div>
         }
+        <ViewTitle title={"Map"}/>
+        <Row>
+          <Col sm={12}>
+            <span className={"title_stats"}>Map des poubelles du GrandLyon</span>
+          </Col>
+        </Row>
+        <Row>
+          <Col>
+            <div className = "map-one">
 
-          <div className = "map-one">
-          <Button variant="primary" onClick={() => this.loadBins()}>Charger les poubelles</Button>
-          <ReactBingmaps
-            bingmapKey = "Ak_-kDEjK1mCGeLhULqNo5zAk3HoOS3Z8NUlcJsOBLyaua-Hpbu3B9mv01BNmgdU"
-            center = {[ 45.743508, 4.846877]}
-            pushPins = { this.state.pushPins }
-          >
-          </ReactBingmaps>
-        </div>
-      </div>
+              <ReactBingmaps
+                  bingmapKey = { this.state.bingmapKey }
+                  center = {this.state.center}
+                  pushPins = { this.state.pushPins }
+              >
+              </ReactBingmaps>
+            </div>
+          </Col>
+        </Row>
+        <Row>
+          <Col sm={12} className={"textCenter"}>
+            <Button variant="success" className={"margin15"} onClick={() => this.loadTrashesOnMap()}>Charger les poubelles sur la map</Button>
+          </Col>
+        </Row>
+        <Row>
+          <Col sm={12}>
+            <span className={"title_stats"}>Trouvez directement la poubelle la plus proche de vous</span>
+          </Col>
+        </Row>
+        <Row>
+          <Col sm={12} className={"textCenter"}>
+            <Button variant="success" className={"margin15"} onClick={() => this.goToNearestTrash()}>Poubelle la plus proche</Button>
+          </Col>
+        </Row>
+        <Row>
+          <Col sm={12}>
+            <span className={"title_stats"}>Liste complète des poubelles du GrandLyon ({this.state.trashes.length} poubelles)</span>
+          </Col>
+        </Row>
+        <Row>
+          <Col sm={12} className={"textCenter"}>
+            <Button id={"buttonList"} variant="success" className={"margin15"} onClick={() => this.displayList()}>Afficher la liste</Button>
+          </Col>
+        </Row>
+        <Row id={"displayList"} className={"hidden"}>
+          <Col sm={12}>
+            <Table>
+              <thead>
+
+              <tr>
+                <th>#</th>
+                <th>Adresse</th>
+                <th>Ville</th>
+                <th>GPS</th>
+                <th>Favoris</th>
+              </tr>
+              </thead>
+              <tbody>
+              {this.state.trashes.map((item, i) => {
+                let adresse="";
+                if(item.numerodansvoie!=null) {
+                  adresse+=item.numerodansvoie+" "
+                }
+                if(item.voie!=null) {
+                  adresse+=item.voie
+                }
+                else{
+                  adresse="-"
+                }
+                return (
+                    <tr className={"clickable"} onClick={() => window.location.href="/trash?id="+item.identifiant}>
+                      <th scope="row">{item.identifiant}</th>
+                      <td>{adresse}</td>
+                      <td>{item.commune}</td>
+                      <td>[{item.latitude}, {item.longitude}]</td>
+                      <td>-</td>
+                    </tr>
+                )
+              })}
+              </tbody>
+            </Table>
+          </Col>
+        </Row>
+      </Container>
     );
   }
 }

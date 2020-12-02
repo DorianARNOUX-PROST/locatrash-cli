@@ -1,6 +1,9 @@
 import React, { Component } from 'react';
-import { Button } from 'react-bootstrap';
+import {Button, Image} from 'react-bootstrap';
 import axios from 'axios';
+import Form from "react-bootstrap/Form";
+import ViewTitle from "../components/ViewTitle";
+import Container from "react-bootstrap/Container";
 
 
 class Signin extends Component {
@@ -12,52 +15,56 @@ class Signin extends Component {
     this.state = {
       email: '',
       password: '',
-      error: {
-        message: ''
-      }
+      error: ''
     }
   }
 
   signIn() {
-
-    const user = {
-      "email": this.state.email,
-      "password": this.state.password,
+    const logInUser = {
+      email: this.state.email,
+      password: this.state.password
     };
-
     let route = "http://localhost:8081/auth/login";
-    axios.post(route, user)
-    .then((response) => {
-      console.log(response);
-      localStorage.setItem('token', response.data.token);
-    })
-    .catch(function (error) {
-
-    });
-    window.location.href='/map';
+    try{
+      axios.post(route, logInUser)
+          .then((response) => {
+            localStorage.setItem('token', response.data.token);
+            localStorage.setItem('id', response.data.id);
+            localStorage.setItem('name', response.data.name);
+            window.location.href='/';
+          })
+    }
+    catch(error) {
+      this.setState({error})
+    }
   }
 
   render() {
     return (
-      <div className="form-inline">
-        <h1>Se connecter</h1>
-        <div className="form-group">
-          <input
-            className="form-control"
-            type="text"
-            placeholder="email"
-            onChange={event => this.setState({email: event.target.value})}
-          />
-          <input
-            className="form-control"
-            type="password"
-            placeholder="mot de passe"
-            onChange={event => this.setState({password: event.target.value})}
-          />
-          <Button variant="dark" onClick={() => this.signIn()}>Se connecter</Button>
-        </div>
-        <div>{this.state.error.message}</div>
-      </div>
+        <Container>
+          <ViewTitle title={"Se connecter"}/>
+          <div className="Login">
+          <Form>
+            <Form.Group size="lg" controlId="email">
+              <Form.Label>Email</Form.Label>
+              <Form.Control
+                  type="text"
+                  placeholder="Email"
+                  onChange={event => this.setState({email: event.target.value})}
+              />
+            </Form.Group>
+            <Form.Group size="lg" controlId="password">
+              <Form.Label>Mot de passe</Form.Label>
+              <Form.Control
+                  type="password"
+                  placeholder="Mot de passe"
+                  onChange={event => this.setState({password: event.target.value})}
+              />
+            </Form.Group>
+            <Button variant="success" block size="lg" onClick={() => this.signIn()}>Se connecter</Button>
+          </Form>
+          </div>
+        </Container>
     )
   }
 }

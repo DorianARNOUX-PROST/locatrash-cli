@@ -4,12 +4,7 @@
 }
 
 .map-one{
-	border: 1px solid black;
-	width: 99%;
-	float: left;
 	height: 500px;
-	padding: 10px;
-	margin: 5px;
 }
 
 div#eleven {
@@ -22,4 +17,69 @@ div#eleven {
 }
 .customClass{
 	height: 96%;
+}
+
+.container {
+	background-color: white;
+	margin-bottom: 100px;
+	padding-bottom: 30px;
+}
+
+html, #root{
+	background-color: #343a40;
+}
+
+.homeBanner{
+	width: 80%;
+	display: block;
+	margin: 50px auto;
+}
+
+.mainColor{
+	color:#28a745;
+}
+
+a:hover{
+	color:#20c997 !important;
+	cursor:pointer;
+}
+
+
+
+.homeTitle{
+	display:block;
+	font-size: 250%;
+	text-align: center;
+	margin-bottom: 50px;
+}
+
+.homeText{
+	display:block;
+	font-size: 150%;
+	text-align: center;
+}
+
+.homeFunct{
+	background-color: #343a40;
+	color: #fff;
+	margin: 50px;
+	padding: 20px;
+}
+
+.homeUl{
+	margin-right: 15%;
+	margin-left: 15%;
+	display: block;
+	margin-top: revert;
+	font-size: 120%;
+}
+
+.homeLoggedInfo{
+	text-align: center;
+	display: block;
+	font-size: 120%;
+}
+
+td, th{
+	vertical-align: middle !important;
 }

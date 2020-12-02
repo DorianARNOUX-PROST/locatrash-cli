@@ -2,8 +2,12 @@ import Navbar from 'react-bootstrap/Navbar'
 import React from 'react';
 import { Button, Nav, Form, FormControl } from 'react-bootstrap';
 import '../App.css';
-import '../Navbar.css';
-import { Link, useHistory } from "react-router-dom";
+import '../styles/Navbar.css';
+import '../styles/styles.css';
+import locatrash_banner_alpha from '../assets/locatrash_banner_alpha.png'
+import NavbarBrand from "react-bootstrap/NavbarBrand";
+import { faChartBar, faHeart, faHome, faMapMarkedAlt, faSignInAlt, faSignOutAlt, faUserPlus } from "@fortawesome/free-solid-svg-icons";
+import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 
 class Navbars extends React.Component{
 
@@ -23,32 +27,48 @@ class Navbars extends React.Component{
 
   logout(){
     localStorage.removeItem("token")
+    localStorage.removeItem("id")
+    localStorage.removeItem("name")
     window.location.href='/';
   }
 
     render (){
       return (
         <div>
-          <Navbar fixed="sticky" bg="primary" variant="dark">
+          <Navbar fixed="sticky" bg="success" variant="dark">
+            <NavbarBrand href="/">
+              <img src={locatrash_banner_alpha} style={{width:200}} />
+            </NavbarBrand>
             <Nav className="mr-auto">
-              <Nav.Link href="/">Accueil</Nav.Link>
+              <Nav.Link href="/"><FontAwesomeIcon icon={faHome} className={"iconNavbar"} />Accueil</Nav.Link>
               {this.state.loggedIn ?
               <React.Fragment>
-                  <Nav.Link href="map">Map</Nav.Link>
-                  <Nav.Link onClick={() => this.logout()}>Se deconnecter</Nav.Link>
+                  <Nav.Link href="map"><FontAwesomeIcon icon={faMapMarkedAlt} className={"iconNavbar"} />Map</Nav.Link>
+                  <Nav.Link href="stats"><FontAwesomeIcon icon={faChartBar} className={"iconNavbar"} />Statistiques</Nav.Link>
                 </React.Fragment>
                   :
                   <React.Fragment>
-                    <Nav.Link href="signin">Se connecter</Nav.Link>
-                    <Nav.Link href="signup">Creer un compte</Nav.Link>
+
                   </React.Fragment>
                 }
 
+
             </Nav>
-            <Form inline>
-              <FormControl type="text" placeholder="Search" className="mr-sm-2" />
-              <Button variant="outline-light">Search</Button>
-            </Form>
+            <div className={"navbar-nav"}>
+            {this.state.loggedIn ?
+
+                <React.Fragment>
+                  <Nav.Link href="favoris"><FontAwesomeIcon icon={faHeart} className={"iconNavbar"} />Mes favoris</Nav.Link>
+                  <Nav.Link onClick={() => this.logout()}><FontAwesomeIcon icon={faSignOutAlt} className={"iconNavbar"} />Se deconnecter</Nav.Link>
+                </React.Fragment>
+                :
+                <React.Fragment>
+                  <Nav.Link href="signin"><FontAwesomeIcon icon={faSignInAlt} className={"iconNavbar"} />Se connecter</Nav.Link>
+                  <Nav.Link href="signup"><FontAwesomeIcon icon={faUserPlus} className={"iconNavbar"} />Créer un compte</Nav.Link>
+                </React.Fragment>
+
+            }
+            </div>
           </Navbar>
         </div>
       )

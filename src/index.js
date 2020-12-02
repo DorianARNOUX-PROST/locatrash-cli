@@ -9,6 +9,9 @@ import Signin from './views/Signin';
 import App from './App';
 import Navbars from './views/Navbars';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import TrashesRepartition from "./views/TrashesRepartition";
+import TrashDetail from "./views/TrashDetail";
+import Favoris from "./views/Favoris";
 
 ReactDOM.render(
   <React.StrictMode>
@@ -18,6 +21,9 @@ ReactDOM.render(
         <Route path="/signup" component={SignUp}></Route>
         <Route path="/signin" component={Signin}></Route>
         <Route path="/map" component={ BinMap }></Route>
+        <Route path="/stats" component={ TrashesRepartition }></Route>
+        <Route path="/trash" component={ TrashDetail }></Route>
+        <Route path="/favoris" component={ Favoris }></Route>
     </BrowserRouter>
   </React.StrictMode>,
   document.getElementById('root')

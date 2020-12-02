@@ -1,0 +1,102 @@
+.textRight{
+    text-align: right;
+}
+
+.textCenter{
+    text-align: center;
+}
+
+.margin15{
+    margin:15px;
+}
+
+.font150{
+    font-size: 150%;
+}
+
+.clickable{
+    cursor: pointer;
+}
+
+.clickable:hover{
+    background-color: #28a745;
+    color: #fff;
+}
+
+.title_stats{
+    display: block;
+    font-size: 150%;
+    font-weight: 500;
+    border-bottom: darkgrey 1px solid;
+    margin: 10px 50px 10px 10px;
+    padding: 5px;
+}
+
+.subtitle_stats{
+    display: block;
+    font-size: 250%;
+    font-weight: 100;
+    margin: 10px 50px 10px 10px;
+    padding: 5px;
+    text-align: right;
+}
+
+.divViewTitle{
+    height: 100px;
+    align-content: center;
+    background-color: #343a40;
+    margin: 0 -15px;
+    vertical-align: middle;
+    font-size: 300%;
+    color: #fff;
+    display: grid;
+    padding: 30px;
+}
+
+.favButton{
+    color: #dc3545;
+    margin-left: 15px;
+    font-size: 400%;
+    cursor:pointer;
+}
+
+.notFavButton{
+    color: #000;
+    margin-left: 15px;
+    font-size: 400%;
+    cursor:pointer;
+}
+
+.desc_title{
+    display: block;
+    color: #28a745;
+    font-size: 150%;
+    font-weight: 500;
+    margin: 10px 20px;
+    border-bottom: 1px solid #28a745;
+}
+
+.desc_content{
+    display: block;
+    font-size: 125%;
+    margin: 0 20px;
+    text-align: right;
+}
+
+.hidden{
+    display: none !important;
+}
+
+.angleIcon{
+    margin-right: 10px;
+    color: #28a745;
+}
+
+.moreDetails{
+    display: block;
+    cursor: pointer;
+    text-align: center;
+    font-size: 150%;
+    margin: 30px 0px;
+}
+
