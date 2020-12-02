@@ -87,13 +87,14 @@ class App extends React.Component{
                       <span className={"homeText"}>
                       Avec l'application web <b className={"mainColor"}>LocaTrash</b>, vous pouvez retouver les fonctionnalités suivantes :</span>
                       <ul className={"homeUl"}>
+                          <li>Trouver la poubelle la plus proche de votre postion actuelle</li>
                           <li>Afficher les poubelles du Grand Lyon sur la map</li>
-                          <li>Obtenir la liste des poubelles du Grand Lyon</li>
+                          <li>Consulter la liste des poubelles du Grand Lyon</li>
                           <li>Consulter les statistiques de la répartition des poubelles</li>
                           <li>Afficher les détails d'une poubelle</li>
                           <li>Afficher l'itinéraire de votre position actuelle à une poubelle</li>
                           <li>Ajouter une poubelle à vos poubelles favorites</li>
-                          <li>Consulter la liste de vos poubelles favorites et les afficher sur la map</li>
+                          <li>Consulter la liste de vos poubelles favorites</li>
                       </ul>
                   </div>
 

@@ -6,6 +6,8 @@ import Row from "react-bootstrap/Row";
 import Container from "react-bootstrap/Container";
 import '../styles/styles.css';
 import ViewTitle from "../components/ViewTitle";
+import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
+import {faAngleDown, faAngleUp} from "@fortawesome/free-solid-svg-icons";
 
 class TrashesRepartition extends React.Component{
     constructor(props) {
@@ -60,6 +62,20 @@ class TrashesRepartition extends React.Component{
         }
     }
 
+    moreDetails(){
+        let bool=document.getElementById("moreDetails").classList.contains('hidden')
+        if(bool){
+            document.getElementById("moreDetails").classList.remove('hidden');
+            document.getElementById("moreDetailsDown").classList.add('hidden');
+            document.getElementById("moreDetailsUp").classList.remove('hidden');
+        }
+        else{
+            document.getElementById("moreDetails").classList.add('hidden');
+            document.getElementById("moreDetailsDown").classList.remove('hidden');
+            document.getElementById("moreDetailsUp").classList.add('hidden');
+        }
+    }
+
     render() {
         return (
          <Container>
@@ -88,27 +104,42 @@ class TrashesRepartition extends React.Component{
                      <CustomChart
                          data={this.state.generalData}
                          title={this.state.generalTitle}
-                         colors={['#343a40', '#28a745','#343a40', '#28a745','#343a40', '#28a745','#343a40', '#28a745','#343a40', '#28a745','#343a40', '#28a745','#343a40', '#28a745','#343a40', '#28a745','#343a40', '#28a745','#343a40', '#28a745','#343a40', '#28a745','#343a40', '#28a745','#343a40', '#28a745','#343a40', '#28a745','#343a40', '#28a745','#343a40', '#28a745','#343a40', '#28a745','#343a40', '#28a745','#343a40', '#28a745','#343a40', '#28a745','#343a40', '#28a745','#343a40', '#28a745','#343a40', '#28a745','#343a40', '#28a745','#343a40', '#28a745','#343a40', '#28a745','#343a40', '#28a745','#343a40', '#28a745','#343a40', '#28a745','#343a40', '#28a745']}
+                         colors={['#343a40', '#28a745','#343a40', '#28a745','#343a40', '#28a745','#343a40', '#28a745','#343a40', '#28a745','#343a40', '#28a745','#343a40', '#28a745','#343a40', '#28a745','#343a40', '#28a745','#343a40', '#28a745','#343a40', '#28a745','#343a40', '#28a745','#343a40', '#28a745','#343a40', '#28a745','#343a40', '#28a745','#343a40', '#28a745','#343a40', '#28a745','#343a40', '#28a745','#343a40', '#28a745','#343a40', '#28a745','#343a40', '#28a745','#343a40', '#28a745','#343a40', '#28a745','#343a40', '#28a745','#343a40', '#28a745','#343a40', '#28a745','#343a40', '#28a745','#343a40', '#28a745','#343a40', '#28a745','#343a40', '#28a745','#343a40', '#28a745','#343a40', '#28a745','#343a40', '#28a745','#343a40', '#28a745']}
                          height={800}
                          type={"bar"}
                      />
                  </Col>
              </Row>
-            <Row>
-                {this.state.data.map((item, i) => {
-                    return (
-                        <Col sm="6  " md="3" className="sub chart-wrapper ">
-                            <CustomChart
-                                data={item.data}
-                                title={item.title}
-                                colors={['#343a40', '#28a745']}
-                                height={150}
-                                type={"doughnut"}
-                            />
-                        </Col>
-                        )
-                })}
-            </Row>
+             <Row>
+                 <Col>
+                     <div id={"moreDetailsDown"} className={"moreDetails hidden"} onClick={() => this.moreDetails()}>
+                         <FontAwesomeIcon icon={faAngleDown} className={"angleIcon"}/>
+                         Voir plus de détails
+                     </div>
+                     <div id={"moreDetailsUp"} className={"moreDetails"} onClick={() => this.moreDetails()}>
+                         <FontAwesomeIcon icon={faAngleUp} className={"angleIcon"}/>
+                         Voir moins de détails
+                     </div>
+                 </Col>
+             </Row>
+             <div id={"moreDetails"} className={""}>
+                 <Row>
+                     {this.state.data.map((item, i) => {
+                         return (
+                             <Col sm="6  " md="3" className="sub chart-wrapper ">
+                                 <CustomChart
+                                     data={item.data}
+                                     title={item.title}
+                                     colors={['#343a40', '#28a745']}
+                                     height={150}
+                                     type={"doughnut"}
+                                 />
+                             </Col>
+                         )
+                     })}
+                 </Row>
+             </div>
+
          </Container>
         );
     }

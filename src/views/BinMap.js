@@ -86,6 +86,11 @@ class BinMap extends React.Component{
     this.setState({pushPins : pushPinsUpdated})
   }
 
+  displayList(){
+      document.getElementById("displayList").classList.remove('hidden');
+      document.getElementById("buttonList").classList.add('hidden');
+  }
+
 
 
   render() {
@@ -124,6 +129,11 @@ class BinMap extends React.Component{
           </Col>
         </Row>
         <Row>
+          <Col sm={12}>
+            <span className={"title_stats"}>Trouvez directement la poubelle la plus proche de vous</span>
+          </Col>
+        </Row>
+        <Row>
           <Col sm={12} className={"textCenter"}>
             <Button variant="success" className={"margin15"} onClick={() => this.goToNearestTrash()}>Poubelle la plus proche</Button>
           </Col>
@@ -134,6 +144,11 @@ class BinMap extends React.Component{
           </Col>
         </Row>
         <Row>
+          <Col sm={12} className={"textCenter"}>
+            <Button id={"buttonList"} variant="success" className={"margin15"} onClick={() => this.displayList()}>Afficher la liste</Button>
+          </Col>
+        </Row>
+        <Row id={"displayList"} className={"hidden"}>
           <Col sm={12}>
             <Table>
               <thead>

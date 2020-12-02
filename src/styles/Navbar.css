@@ -2,3 +2,8 @@
     position: sticky;
     top: 0;
   }
+
+.iconNavbar{
+    padding-right:5px;
+    width: auto !important;
+}

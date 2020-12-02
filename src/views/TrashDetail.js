@@ -185,11 +185,11 @@ class TrashDetail extends React.Component{
             "wayPoints": [
                 {
                     location: this.state.maPosition,
-                    address: "Moi"
+                    address: "Vous"
                 },
                 {
                     location: [ this.state.latitude, this.state.longitude],
-                    address: "Poubelle"
+                    address: "Poubelle "+this.state.identifiant
                 }
             ]
         };
@@ -238,7 +238,6 @@ class TrashDetail extends React.Component{
 
     moreDetails(){
         let bool=document.getElementById("moreDetails").classList.contains('hidden')
-        //console.log("moreDetails :"+bool)
         if(bool){
             document.getElementById("moreDetails").classList.remove('hidden');
             document.getElementById("moreDetailsDown").classList.add('hidden');
