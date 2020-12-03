@@ -158,7 +158,6 @@ class BinMap extends React.Component{
                 <th>Adresse</th>
                 <th>Ville</th>
                 <th>GPS</th>
-                <th>Favoris</th>
               </tr>
               </thead>
               <tbody>
@@ -179,7 +178,6 @@ class BinMap extends React.Component{
                       <td>{adresse}</td>
                       <td>{item.commune}</td>
                       <td>[{item.latitude}, {item.longitude}]</td>
-                      <td>-</td>
                     </tr>
                 )
               })}
